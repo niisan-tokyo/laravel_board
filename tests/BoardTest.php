@@ -127,4 +127,18 @@ class BoardTest extends TestCase
         $this->assertRedirectedTo('/boards');
         $this->visit('/boards')->see('タイトルその1')->see('本文その1');// データの変更なし
     }
+
+    public function testDeleteBoard()
+    {
+        $first = factory(App\Board::class)->create();
+        $first->title = 'タイトルその1';
+        $first->content = '本文その1';
+        $first->save();
+
+        //削除前の状況
+        $this->visit('/boards')->see('タイトルその1');
+        $this->visit('/boards/delete/'.$first->id)
+        ->seePage('/boards')// 削除後は元の掲示板に戻る
+        ->dontSee('タイトルその1');// 掲示板のタイトルが見えなくなっている
+    }
 }
