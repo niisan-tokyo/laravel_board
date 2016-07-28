@@ -96,5 +96,10 @@ class BoardTest extends TestCase
         ->press('送信')->seePageIs('/boards')// 編集内容を送信すると、掲示板のトップに遷移
         ->see('タイトル修正その1')->dontSee('タイトルその1')// タイトルが編集されていること
         ->see('本文修正その1')->dontSee('本文その1');// 本文も修正されていること
+
+        // 存在しないコードのeditであれば404
+        // visitはしっかり訪問できるページを表すためか、エラーステータスを含むテストはできない
+        $this->call('GET','/boards/edit/'.($first->id + 1));
+        $this->assertResponseStatus(404);
     }
 }

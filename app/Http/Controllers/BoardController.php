@@ -40,6 +40,9 @@ class BoardController extends Controller
     public function getEdit($id)
     {
         $board = Board::find($id);
+        if (! $board) {
+            abort(404);
+        }
 
         return view('board.edit', ['board' => $board]);
     }
