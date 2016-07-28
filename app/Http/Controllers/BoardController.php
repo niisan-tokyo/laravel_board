@@ -57,6 +57,10 @@ class BoardController extends Controller
         ]);
 
         $board = Board::find($req->input('id'));
+        if (! $board) {
+            return redirect('/boards');
+        }
+        
         $board->title = $req->input('title');
         $board->content = $req->input('content');
         $board->save();

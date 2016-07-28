@@ -102,4 +102,29 @@ class BoardTest extends TestCase
         $this->call('GET','/boards/edit/'.($first->id + 1));
         $this->assertResponseStatus(404);
     }
+
+    /**
+     * 掲示板更新時のバリデーションエラーに対するテスト
+     *
+     * @return void
+     */
+    public function testUpdateBoardVaridationError()
+    {
+        $first = factory(App\Board::class)->create();
+        $first->title = 'タイトルその1';
+        $first->content = '本文その1';
+        $first->save();
+
+        // タイトル・本文は入力されていなければならない
+        $this->visit('/boards/edit/'.$first->id)
+        ->type('', 'title')->type('', 'content')->press('送信')
+        ->seePageIs('/boards/edit/'.$first->id)
+        ->see('titleは必須です。')
+        ->see('contentは必須です。');
+
+        // ID未指定であればそのまま掲示板トップに進む
+        $this->post('/boards/update', ['id' => ($first->id + 1), 'title'=>'!!', 'content' => '??']);
+        $this->assertRedirectedTo('/boards');
+        $this->visit('/boards')->see('タイトルその1')->see('本文その1');// データの変更なし
+    }
 }
