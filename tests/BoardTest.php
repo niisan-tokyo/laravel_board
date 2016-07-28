@@ -138,7 +138,7 @@ class BoardTest extends TestCase
         //削除前の状況
         $this->visit('/boards')->see('タイトルその1');
         $this->visit('/boards/delete/'.$first->id)
-        ->seePage('/boards')// 削除後は元の掲示板に戻る
+        ->seePageIs('/boards')// 削除後は元の掲示板に戻る
         ->dontSee('タイトルその1');// 掲示板のタイトルが見えなくなっている
     }
 }

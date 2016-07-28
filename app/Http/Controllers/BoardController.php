@@ -60,10 +60,18 @@ class BoardController extends Controller
         if (! $board) {
             return redirect('/boards');
         }
-        
+
         $board->title = $req->input('title');
         $board->content = $req->input('content');
         $board->save();
+
+        return redirect('/boards');
+    }
+
+    public function getDelete($id)
+    {
+        $board = Board::find($id);
+        $board->delete();
 
         return redirect('/boards');
     }
