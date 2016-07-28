@@ -5,7 +5,7 @@
 <body>
     <h1>掲示板のテスト</h1>
     @foreach($boards as $board)
-    <h3>{{ $board->title }}</h3>
+    <h3><a href="/boards/edit/{{ $board->id }}">{{ $board->title }}</a></h3>
     <p>{{ $board->content }}</p>
     @endforeach
 

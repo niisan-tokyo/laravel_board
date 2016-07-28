@@ -88,8 +88,10 @@ class BoardTest extends TestCase
         $first->content = '本文その1';
         $first->save();
 
+        // アップデートの流れ
         $this->visit('/boards')->see('タイトルその1')// 入力済みのデータが存在する
-        ->click('タイトルその1')->seePagesIs('/boards/edit/'.$first->id)// 内容を編集する画面に遷移する
+        ->click('タイトルその1')->seePageIs('/boards/edit/'.$first->id)// 内容を編集する画面に遷移する
+        ->see('タイトルその1')->see('本文その1')// 選択したデータの内容が表示されている
         ->type('タイトル修正その1', 'title')->type('本文修正その1', 'content')
         ->press('送信')->seePageIs('/boards')// 編集内容を送信すると、掲示板のトップに遷移
         ->see('タイトル修正その1')->dontSee('タイトルその1')// タイトルが編集されていること

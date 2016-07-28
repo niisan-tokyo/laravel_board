@@ -36,4 +36,28 @@ class BoardController extends Controller
 
         return redirect('/boards');
     }
+
+    public function getEdit($id)
+    {
+        $board = Board::find($id);
+
+        return view('board.edit', ['board' => $board]);
+    }
+
+
+    public function postUpdate(Request $req)
+    {
+        $this->validate($req, [
+            'id' => 'required',
+            'title' => 'required|max:10',
+            'content' => 'required'
+        ]);
+
+        $board = Board::find($req->input('id'));
+        $board->title = $req->input('title');
+        $board->content = $req->input('content');
+        $board->save();
+
+        return redirect('/boards');
+    }
 }
