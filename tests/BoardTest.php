@@ -76,5 +76,23 @@ class BoardTest extends TestCase
         ->see('titleは10文字以下にしてください。');
     }
 
-    
+    /**
+     * 掲示板の内容修正のためのテスト
+     *
+     * @return void
+     */
+    public function testUpdateBoard()
+    {
+        $first = factory(App\Board::class)->create();
+        $first->title = 'タイトルその1';
+        $first->content = '本文その1';
+        $first->save();
+
+        $this->visit('/boards')->see('タイトルその1')// 入力済みのデータが存在する
+        ->click('タイトルその1')->seePagesIs('/boards/edit/'.$first->id)// 内容を編集する画面に遷移する
+        ->type('タイトル修正その1', 'title')->type('本文修正その1', 'content')
+        ->press('送信')->seePageIs('/boards')// 編集内容を送信すると、掲示板のトップに遷移
+        ->see('タイトル修正その1')->dontSee('タイトルその1')// タイトルが編集されていること
+        ->see('本文修正その1')->dontSee('本文その1');// 本文も修正されていること
+    }
 }
