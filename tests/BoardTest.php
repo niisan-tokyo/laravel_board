@@ -73,7 +73,7 @@ class BoardTest extends TestCase
         $this->visit('/boards/new')->type('あいうえおあいうえおあ', 'title')
         ->type('本文テスト3', 'content')->press('送信')->seePageIs('/boards/new')
         ->see('入力値に以下の不正が発見されました')
-        ->see('titleは10文字以下にしてください。');
+        ->see('タイトルは10文字以下にしてください。');
     }
 
     /**
@@ -119,8 +119,8 @@ class BoardTest extends TestCase
         $this->visit('/boards/edit/'.$first->id)
         ->type('', 'title')->type('', 'content')->press('送信')
         ->seePageIs('/boards/edit/'.$first->id)
-        ->see('titleは必須です。')
-        ->see('contentは必須です。');
+        ->see('タイトルは必須です。')
+        ->see('本文は必須です。');
 
         // ID未指定であればそのまま掲示板トップに進む
         $this->post('/boards/update', ['id' => ($first->id + 1), 'title'=>'!!', 'content' => '??']);
