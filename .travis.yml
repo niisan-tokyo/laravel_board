@@ -15,10 +15,10 @@ before_install:
     - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
     - chmod +x docker-compose
     - sudo mv docker-compose /usr/local/bin
-    - docker-compose up -d
-    - docker-compose exec workspace composer install
+    - docker-compose up -d mysql_test
+    - docker-compose run workspace composer install
     - cp .env.example .env
-    - docker-compose exec workspace php artisan key:generate
+    - docker-compose run workspace php artisan key:generate
 
 script:
-    - docker-compose exec workspace ./vendor/bin/phpunit
+    - docker-compose run workspace ./vendor/bin/phpunit
