@@ -1,5 +1,7 @@
 # BoardTest for using Laravel
 
+[![Build Status](https://travis-ci.org/niisan-tokyo/laravel_board.svg?branch=master)](https://travis-ci.org/niisan-tokyo/laravel_board)
+
 Laravelを使用して掲示板を作る習作アプリ。
 以下を重点的に試行する
 
