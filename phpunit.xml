@@ -27,5 +27,6 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="DB_HOST" value="mysql_test"/>
+        <env name="IMAGE_UPLOAD" value="/var/www/laravel/tests/uploads"/>
     </php>
 </phpunit>

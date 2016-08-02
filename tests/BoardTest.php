@@ -141,4 +141,35 @@ class BoardTest extends TestCase
         ->seePageIs('/boards')// 削除後は元の掲示板に戻る
         ->dontSee('タイトルその1');// 掲示板のタイトルが見えなくなっている
     }
+
+
+    public function testUploadFile()
+    {
+        $first = factory(App\Board::class)->create();
+        $first->title = 'タイトルその1';
+        $first->content = '本文その1';
+        $first->save();
+
+        // create 時の動作
+        $this->visit('/boards/new')
+        ->type('タイトルその2', 'title')
+        ->type('本文その2本文その2', 'content')
+        ->attach('/var/www/laravel/tests/data/testImage.png', 'image')
+        ->press('送信')->seePageIs('/boards');
+
+        // update 次の動作
+        $this->visit('/boards/edit/'.$first->id)
+        ->type('タイトルその1', 'title')
+        ->type('本文その1', 'content')
+        ->attach('/var/www/laravel/tests/data/testImage.png', 'image')
+        ->press('送信')->seePageIs('/boards')
+        ->see('/imgs/'.$first->id.'.png');
+
+        // ファイルの存在確認
+        $this->assertTrue(file_exists('/var/www/laravel/tests/uploads/'.$first->id));
+
+        //ファイルは削除する
+        `rm /var/www/laravel/tests/uploads/*.png`;
+
+    }
 }
