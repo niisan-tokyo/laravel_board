@@ -5,10 +5,11 @@
 <body>
     <h1>掲示板の投稿</h1>
     @include('common.errors')
-    <form action="/boards/create" method="post">
+    <form action="/boards/create" method="post" enctype="multipart/form-data">
         {!! csrf_field() !!}
         タイトル<input type="text" name="title"><br>
         本文<textarea name="content"></textarea>
+        画像<input type="file" name="image" /><br>
         <input type="submit" value="送信">
     </form>
 

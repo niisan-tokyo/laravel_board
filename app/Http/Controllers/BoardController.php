@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Board;
+use Strorage;
 
 class BoardController extends Controller
 {
@@ -33,6 +34,8 @@ class BoardController extends Controller
         $board->title = $req->input('title');
         $board->content = $req->input('content');
         $board->save();
+
+        $this->imageUpload($req, $board);
 
         return redirect('/boards');
     }
@@ -63,6 +66,7 @@ class BoardController extends Controller
 
         $board->title = $req->input('title');
         $board->content = $req->input('content');
+        $this->imageUpload($req, $board, false);
         $board->save();
 
         return redirect('/boards');
@@ -74,5 +78,18 @@ class BoardController extends Controller
         $board->delete();
 
         return redirect('/boards');
+    }
+
+    private function imageUpload($req, $board, $save = true)
+    {
+        if ($req->hasFile('image')) {
+            $file = $req->file('image');
+            $filename = $board->id.'.'.$file->getExtension();
+            $file->move(env('IMAGE_UPLOAD'), $filename);
+            $board->image = $filename;
+            if ($save) {
+                $board->save();
+            }
+        }
     }
 }
