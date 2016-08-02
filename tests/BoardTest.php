@@ -166,10 +166,10 @@ class BoardTest extends TestCase
         ->see('/imgs/'.$first->id.'.png');
 
         // ファイルの存在確認
-        $this->assertTrue(file_exists('/var/www/laravel/tests/uploads/'.$first->id));
+        $this->assertTrue(file_exists('/var/www/laravel/tests/uploads/'.$first->image));
 
         //ファイルは削除する
-        `rm /var/www/laravel/tests/uploads/*.png`;
+        exec('rm /var/www/laravel/tests/uploads/*.png');
 
     }
 }

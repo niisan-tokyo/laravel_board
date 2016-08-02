@@ -16,6 +16,7 @@ class CreateBoardsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('content');
+            $table->string('image')->default('');
             $table->timestamps();
         });
     }
